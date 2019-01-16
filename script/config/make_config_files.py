@@ -1,10 +1,16 @@
 import os
 import shutil
+import argparse
 import numpy as np
 from itertools import product
 from collections import OrderedDict
 
 import config_src as config_src
+
+def setup_opts():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config_dir', type=str, default='', help='config file directory')
+    return parser.parse_args()
 
 def write_file(path, cfg_opts):
     with open(path, "w") as outfile:
@@ -18,7 +24,7 @@ def write_file(path, cfg_opts):
             else:
                 outfile.write(f"--{key} {val}\n")
 
-def main(base_dir):
+def main(config_dir):
 
     cmd_line_args = config_src.config_opts
 
@@ -39,14 +45,16 @@ def main(base_dir):
     # Recombine variable combination and static param dicts, then write to file
     for dict_i, combo_dict in enumerate(all_hyper_param_combinations, 1):
         full_dict = {**combo_dict, **static_cmd_line_args}
-        write_file(os.path.join(base_dir, f"exp_{dict_i}.cfg"), full_dict)
+        write_file(os.path.join(config_dir, f"exp_{dict_i}.cfg"), full_dict)
 
     print(f"Number experiments: {len(value_combinations)}")
 
 if __name__ == '__main__':
-    base_dir = "experiment_cfg_files"
-    if os.path.exists(base_dir):
-        shutil.rmtree(base_dir)
-    os.makedirs(base_dir)
+    opts = setup_opts()
 
-    main(base_dir)
+    config_dir = opts.config_dir
+    if os.path.exists(config_dir):
+        shutil.rmtree(config_dir)
+    os.makedirs(config_dir)
+
+    main(config_dir)
