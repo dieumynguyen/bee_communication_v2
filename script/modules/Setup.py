@@ -40,6 +40,7 @@ def config_options():
     parser.add_argument("--worker_step_size", type=float, default=0.05)
     parser.add_argument("--worker_initial_concentration", type=float, default=0.15)
     parser.add_argument("--worker_trans_prob", type=float, default=1.0)
+    parser.add_argument("--sensitivity_mode", type=str, default='none')
     parser.add_argument("--enable_probabilistic", type=bool, default=False)
     parser.add_argument("--space_constraint", type=float, default=0.85)
     parser.add_argument("--t_threshold", type=float, default=100)
@@ -97,16 +98,17 @@ def world_parameters(cfg, model_dir):
     }
 
     bee_params = {
-        "x_min"         : cfg.x_min,
-        "x_max"         : cfg.x_max,
-        "init_stddev"   : cfg.space_constraint,
-        "A"             : cfg.worker_initial_concentration,
-        "threshold"     : cfg.worker_threshold,
-        "wb"            : cfg.worker_bias_scalar,
-        "wait_period"   : cfg.worker_wait_period,
-        "step_size"     : cfg.worker_step_size,
-        "probabilistic" : cfg.enable_probabilistic,
-        "trans_prob"    : cfg.worker_trans_prob
+        "x_min"            : cfg.x_min,
+        "x_max"            : cfg.x_max,
+        "init_stddev"      : cfg.space_constraint,
+        "A"                : cfg.worker_initial_concentration,
+        "threshold"        : cfg.worker_threshold,
+        "wb"               : cfg.worker_bias_scalar,
+        "wait_period"      : cfg.worker_wait_period,
+        "step_size"        : cfg.worker_step_size,
+        "probabilistic"    : cfg.enable_probabilistic,
+        "trans_prob"       : cfg.worker_trans_prob,
+        "sensitivity_mode" : cfg.sensitivity_mode
     }
 
     world_params = {

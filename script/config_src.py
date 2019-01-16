@@ -29,6 +29,7 @@ config_opts = {
     "worker_initial_concentration" : [0.15],
     "worker_trans_prob" : 1.0,
     "enable_probabilistic" : False,
+    "sensitivity_mode"  : "none",
 
     "space_constraint" : 0.85,
     "t_threshold" : 100,

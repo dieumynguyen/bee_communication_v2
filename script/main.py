@@ -29,12 +29,11 @@ def main(cfg_options, environment, queen_bee, bees, bee_keeper):
             # -- for each pheromone source, calculate gradient for each bee
             for pheromone_src in environment.pheromone_sources:
                 # Update concentration map with x, y, A, dt, etc.
-                environment.update_concentration_map(t_i, pheromone_src)
+                pheromone_src_C = environment.update_concentration_map(t_i, pheromone_src)
 
                 # Iterate through list of active bees and calculate gradient
                 for bee in bees:
-                    grad = environment.calculate_gradient(t_i, bee.x, bee.y, pheromone_src)
-                    bee.update_gradient(grad)
+                    bee.sense_environment(t_i, environment, pheromone_src, pheromone_src_C)
             # ----------------------------------------------------
 
             # Step 3: Update bees & environment
@@ -42,8 +41,6 @@ def main(cfg_options, environment, queen_bee, bees, bee_keeper):
             queen_bee.update()
 
             for bee_i, bee in enumerate(bees):
-                # Check if bee's threshold is met then update based on state
-                bee.check_threshold(environment)
                 bee.update()
 
                 # Measure and store bee info
