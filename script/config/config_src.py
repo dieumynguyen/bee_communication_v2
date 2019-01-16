@@ -34,6 +34,5 @@ config_opts = {
     "space_constraint" : 0.85,
     "t_threshold" : 100,
 
-    "save_folder" : "experiments",
     "measurements_on" : True
 }

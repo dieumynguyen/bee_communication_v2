@@ -44,9 +44,11 @@ def config_options():
     parser.add_argument("--enable_probabilistic", type=bool, default=False)
     parser.add_argument("--space_constraint", type=float, default=0.85)
     parser.add_argument("--t_threshold", type=float, default=100)
-    parser.add_argument("--save_folder", type=str, default="experiments")
     parser.add_argument("--measurements_on", type=bool, default=False)
     parser.add_argument("--file", type=open, action=LoadFromFile)
+
+    # Separate
+    parser.add_argument("--experiment_folder", type=str, default="experiments")
 
     # Read arguments from parser
     args = parser.parse_args()
@@ -61,7 +63,7 @@ def directory(config):
     else:
         cfg_name = config.config_file.split(os.path.sep)[-1].replace('.cfg', '')
 
-    model_dir = os.path.join(config.save_folder, f"cfg__{cfg_name}__{timestamp}")
+    model_dir = os.path.join(config.experiment_folder, f"cfg__{cfg_name}__{timestamp}")
     os.makedirs(model_dir)
 
     # Add config file to model dir
