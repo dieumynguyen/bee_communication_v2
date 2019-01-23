@@ -88,7 +88,7 @@ class Environment(object):
 
     def __calc_gradient(self, x_sample_pt, y_sample_pt, D, dt, A, x_source, y_source, wx, wy, wb, decay_rate):
         K = -A / (2 * D * dt * np.sqrt(dt) + 1e-5)
-        exp_term = np.exp(- ((x_sample_pt-x_source - wb*wx*dt)**2 + (y_sample_pt-y_source - wb*wy*dt)**2) / (dt*4*D + 1e-5))
+        exp_term = np.exp(- (((x_sample_pt-x_source - wb*wx*dt)**2 + (y_sample_pt-y_source - wb*wy*dt)**2) / (dt*4*D + 1e-5)) - (decay_rate*dt))
         dc_dx = K * exp_term * (x_sample_pt - x_source - wb*wx*dt)
         dc_dy = K * exp_term * (y_sample_pt - y_source - wb*wy*dt)
         return dc_dx, dc_dy

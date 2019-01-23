@@ -19,11 +19,8 @@ class BeeKeeper(object):
             "distance_from_queen": []
         }
 
-        states = ["random_walk", "emit", "wait", "directed_walk"]
+        states = ["random_walk_pre", "emit", "wait", "directed_walk", "random_walk_post"]
         self.state_encoding = { state : i for i, state in enumerate(states) }
-
-        if self.sleeping:
-            print("\nWARNING: Bee keeper is sleeping. They will not be recording this experiment")
 
     def __set_params(self, params):
         for key, val in params.items():
@@ -72,3 +69,5 @@ class BeeKeeper(object):
 
         self.__write_environment_data()
         self.__write_bee_data()
+
+    

@@ -55,7 +55,7 @@ class Worker(object):
         self.threshold_met = False
 
         # State
-        self.state = "random_walk"
+        self.state = "random_walk_pre"
 
     def __normalize_gradient(self):
         d = np.linalg.norm([self.gradient_x, self.gradient_y])
@@ -201,10 +201,14 @@ class Worker(object):
 
     def __update_state(self):
         self.next_state = None
-        if self.state == "random_walk":
+        if self.state == "random_walk_pre" or self.state == "random_walk_post":
             if self.threshold_met:
-                self.next_state = "wait"
-                self.wait_timestep = 0
+                random_draw = np.random.uniform(0, 1)
+                if random_draw <= self.trans_prob:
+                    self.next_state = "wait"
+                    self.wait_timestep = 0
+                else:
+                    self.next_state = "directed_walk"
 
         elif self.state == "wait":
             if self.wait_timestep == 0:
@@ -222,14 +226,12 @@ class Worker(object):
 
         elif self.state == "directed_walk":
             if self.threshold_met:
-                if self.probabilistic:
-                    random_draw = np.random.uniform(0, 1)
-                    if random_draw < self.trans_prob:
-                        self.next_state = "wait"
-                        self.wait_timestep = 0
-                else:
+                random_draw = np.random.uniform(0, 1)
+                if random_draw <= self.trans_prob:
                     self.next_state = "wait"
                     self.wait_timestep = 0
+            else:
+                self.next_state = "random_walk_post"
 
         # Check for case where state hasnt't changed
         if self.next_state is None:
@@ -243,7 +245,7 @@ class Worker(object):
     def step(self, environment):
         self.state = self.next_state
 
-        if self.state == "random_walk":
+        if self.state == "random_walk_pre" or self.state == "random_walk_post":
             random_sign_x = np.random.choice([-1, 0, 1])
             random_sign_y = np.random.choice([-1, 0, 1])
 
