@@ -2,7 +2,7 @@ import numpy as np
 
 config_opts = {
     "verbose"     : True,
-    "random_seed" : [1,2,3,4,5],
+    "random_seed" : [10],
     ### ENVIRONMENT PARAMS ###
     "x_min" : -3,
     "x_max" : 3,
@@ -31,6 +31,7 @@ config_opts = {
     "enable_probabilistic" : True,
     "sensitivity_mode"  : "none",
 
+    "culling_threshold" : 1e-4,
     "space_constraint" : 0.85,
     "t_threshold" : 100,
 

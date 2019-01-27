@@ -40,6 +40,7 @@ def config_options():
     parser.add_argument("--worker_step_size", type=float, default=0.05)
     parser.add_argument("--worker_initial_concentration", type=float, default=0.15)
     parser.add_argument("--worker_trans_prob", type=float, default=1.0)
+    parser.add_argument("--culling_threshold", type=float, default=0.0001)
     parser.add_argument("--sensitivity_mode", type=str, default='none')
     parser.add_argument("--enable_probabilistic", type=bool, default=False)
     parser.add_argument("--space_constraint", type=float, default=0.85)
@@ -63,7 +64,18 @@ def directory(config):
     else:
         cfg_name = config.config_file.split(os.path.sep)[-1].replace('.cfg', '')
 
-    model_dir = os.path.join(config.experiment_folder, f"cfg__{cfg_name}__{timestamp}")
+    # model_dir = os.path.join(config.experiment_folder, f"cfg__{cfg_name}__{timestamp}")
+    # Show params on folder title
+    Q = config.queen_initial_concentration
+    W = config.worker_initial_concentration
+    D = config.diffusion_coefficient
+    T = config.worker_threshold
+    wb = config.worker_bias_scalar
+    decay = config.decay
+    seed = config.random_seed
+    params_name = f"Q{Q}_W{W}_D{D}_T{T:0.4f}_wb{wb}_decay{decay}_seed{seed}"
+    model_dir = os.path.join(config.experiment_folder, f"{params_name}")
+
     os.makedirs(model_dir)
 
     # Add config file to model dir
@@ -87,7 +99,8 @@ def world_parameters(cfg, model_dir):
         "t_max"      : cfg.t_max,
         "dt"         : cfg.dt,
         "D"          : cfg.diffusion_coefficient,
-        "decay_rate" : cfg.decay
+        "decay_rate" : cfg.decay,
+        "culling_threshold" : cfg.culling_threshold
     }
 
     queen_params  = {

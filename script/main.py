@@ -16,6 +16,8 @@ def main(cfg_options, environment, queen_bee, bees, bee_keeper):
             # Update pheromone list from queen bee
             environment.update_pheromone_sources(queen_bee, t_i)
 
+            environment.cull_pheromone_sources(t_i)
+
             # Update pheromone list from worker bees
             for bee_i, bee in enumerate(bees):
                 environment.update_pheromone_sources(bee, t_i)

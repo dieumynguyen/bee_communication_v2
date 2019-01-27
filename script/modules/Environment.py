@@ -58,6 +58,25 @@ class Environment(object):
             }
             self.pheromone_sources.append(bee_tuple)
 
+
+    def cull_pheromone_sources(self, t_i):
+        keep_idxs = []
+        for pheromone_src_i, pheromone_src in enumerate(self.pheromone_sources):
+
+            delta_t = t_i - pheromone_src['t0']
+            delta_t += self.dt
+            current_c = self.__diffusion_eq(A=pheromone_src['A'], D=self.D,
+                                            x=pheromone_src['x'], x_source=pheromone_src['x'],
+                                            y=pheromone_src['y'], y_source=pheromone_src['y'],
+                                            wb=pheromone_src['wb'],
+                                            wx=pheromone_src['wx'], wy=pheromone_src['wy'],
+                                            t=delta_t, decay_rate=self.decay_rate)
+
+            if current_c > self.culling_threshold:
+                keep_idxs.append(pheromone_src_i)
+
+        self.pheromone_sources = list(np.array(self.pheromone_sources)[keep_idxs])
+
     def init_concentration_map(self):
         self.concentration_map = np.zeros([self.x_grid.shape[0], self.x_grid.shape[0]])
 
@@ -88,7 +107,10 @@ class Environment(object):
 
     def __calc_gradient(self, x_sample_pt, y_sample_pt, D, dt, A, x_source, y_source, wx, wy, wb, decay_rate):
         K = -A / (2 * D * dt * np.sqrt(dt) + 1e-5)
-        exp_term = np.exp(- (((x_sample_pt-x_source - wb*wx*dt)**2 + (y_sample_pt-y_source - wb*wy*dt)**2) / (dt*4*D + 1e-5)) - (decay_rate*dt))
+        x_term = (x_sample_pt-x_source - wb*wx*dt)**2
+        y_term = (y_sample_pt-y_source - wb*wy*dt)**2
+        denom = dt*4*D + 1e-5
+        exp_term = np.exp(-(x_term + y_term)/denom - decay_rate*dt)
         dc_dx = K * exp_term * (x_sample_pt - x_source - wb*wx*dt)
         dc_dy = K * exp_term * (y_sample_pt - y_source - wb*wy*dt)
         return dc_dx, dc_dy
