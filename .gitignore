@@ -12,8 +12,6 @@
 *.MP4
 *.h5
 *.cfg
-/ipynb/experiments
-/script/experiments
-/data
+/experiments
 /Q*
 
