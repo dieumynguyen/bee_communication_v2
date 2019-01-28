@@ -52,11 +52,11 @@ def create_slurm_script(base_dir, cfg_i, experiment_dir, config_file_path, opts)
     job_name = f"job_{cfg_i}"
     num_nodes = opts.nodes
     num_tasks = opts.ntasks
-    memory_limit = "{opts.mem}gb"
+    memory_limit = f"{opts.mem}gb"
     runtime = f"{opts.time:02d}:00:00"
     partition = opts.partition
 
-    mail_type = "FAIL"
+    mail_type = "NONE"
     email_address = "ding1018@colorado.edu"
 
     outfile_path = os.path.join(slurm_output_file_dir, "/slurm_test_%j.out")

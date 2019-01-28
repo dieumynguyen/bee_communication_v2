@@ -1,10 +1,12 @@
 import warnings
 warnings.filterwarnings("ignore")
 import sys
+import numpy as np
 
 import modules.Setup as Setup
 
 def main(cfg_options, environment, queen_bee, bees, bee_keeper):
+
     try:
         for global_i, t_i in enumerate(environment):
             if cfg_options.verbose:
@@ -65,6 +67,8 @@ def main(cfg_options, environment, queen_bee, bees, bee_keeper):
 
 if __name__ == '__main__':
     cfg_options = Setup.config_options()
+    np.random.seed(cfg_options.random_seed)
+
     model_dir = Setup.directory(cfg_options)
     world_params = Setup.world_parameters(cfg_options, model_dir)
     world_objects = Setup.world_objects(cfg_options, world_params)
