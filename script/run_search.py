@@ -15,8 +15,8 @@ BASE_EXPERIMENT_DIR = "experiments"
 
 def setup_opts():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', type=int, default=0, help='Debugging Mode')
-    parser.add_argument('--location', type=str, default='local', help='local or server')
+    parser.add_argument('--debug', type=int, default=1, help='Debugging Mode')
+    parser.add_argument('--location', type=str, default='server', help='local or server')
     parser.add_argument('--nodes', type=int, default=1, help='num nodes')
     parser.add_argument('--ntasks', type=int, default=48, help='num tasks')
     parser.add_argument('--mem', type=int, default=500, help='memory limit (GB)')
@@ -48,6 +48,8 @@ def create_slurm_script(base_dir, cfg_i, experiment_dir, config_file_path, opts)
     if not os.path.exists(slurm_output_file_dir):
         os.makedirs(slurm_output_file_dir)
 
+    print(f"here: {slurm_output_file_dir}")
+
     slurm_path = os.path.join(base_dir, "main.slurm")
     job_name = f"job_{cfg_i}"
     num_nodes = opts.nodes
@@ -56,11 +58,11 @@ def create_slurm_script(base_dir, cfg_i, experiment_dir, config_file_path, opts)
     runtime = f"{opts.time:02d}:00:00"
     partition = opts.partition
 
-    mail_type = "NONE"
+    mail_type = "FAIL"
     email_address = "ding1018@colorado.edu"
 
-    outfile_path = os.path.join(slurm_output_file_dir, "/slurm_test_%j.out")
-    errfile_path = os.path.join(slurm_output_file_dir, "/slurm_test_%j.err")
+    outfile_path = os.path.join(slurm_output_file_dir, "slurm_test_%j.out")
+    errfile_path = os.path.join(slurm_output_file_dir, "slurm_test_%j.err")
 
     with open(slurm_path, "w") as outfile:
         outfile.write("#!/bin/bash\n")
@@ -84,7 +86,7 @@ def run_search(base_dir, cfg_files_dir, experiment_dir, opts):
 
     cfg_files = glob.glob(f"{cfg_files_dir}/*")
 
-    if opts.d:
+    if opts.debug:
         print("** Debugging Mode **")
         cfg_files = cfg_files[:2]
 

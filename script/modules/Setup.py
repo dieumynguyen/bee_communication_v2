@@ -49,7 +49,7 @@ def config_options():
     parser.add_argument("--file", type=open, action=LoadFromFile)
 
     # Separate
-    parser.add_argument("--experiment_folder", type=str, default="experiments")
+    parser.add_argument("--base_dir", type=str, default="experiments")
 
     # Read arguments from parser
     args = parser.parse_args()
@@ -64,18 +64,19 @@ def directory(config):
     else:
         cfg_name = config.config_file.split(os.path.sep)[-1].replace('.cfg', '')
 
-    # model_dir = os.path.join(config.experiment_folder, f"cfg__{cfg_name}__{timestamp}")
+    model_dir = os.path.join(config.base_dir, f"cfg__{cfg_name}__{timestamp}")
     # Show params on folder title
-    Q = config.queen_initial_concentration
-    W = config.worker_initial_concentration
-    D = config.diffusion_coefficient
-    T = config.worker_threshold
-    wb = config.worker_bias_scalar
-    decay = config.decay
-    seed = config.random_seed
-    params_name = f"Q{Q}_W{W}_D{D}_T{T:0.4f}_wb{wb}_decay{decay}_seed{seed}"
-    model_dir = os.path.join(config.experiment_folder, f"{params_name}")
-
+    # Q = config.queen_initial_concentration
+    # W = config.worker_initial_concentration
+    # D = config.diffusion_coefficient
+    # T = config.worker_threshold
+    # wb = config.worker_bias_scalar
+    # decay = config.decay
+    # seed = config.random_seed
+    # params_name = f"Q{Q}_W{W}_D{D}_T{T:0.4f}_wb{wb}_decay{decay}_seed{seed}"
+    # model_dir = os.path.join(config.base_dir, f"{params_name}")
+    with open("test.txt", "w") as outfile:
+        outfile.write("Fuck\n")
     os.makedirs(model_dir)
 
     # Add config file to model dir
