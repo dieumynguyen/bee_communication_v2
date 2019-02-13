@@ -14,3 +14,6 @@
 *.h5
 /experiments
 /data
+/distance_data
+/plots
+/sample_experiments
