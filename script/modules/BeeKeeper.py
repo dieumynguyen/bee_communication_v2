@@ -29,6 +29,8 @@ class BeeKeeper(object):
     def measure_environment(self, environment):
         if self.sleeping:
             return
+
+        # if self.save_concentration_maps:
         self.environment_history.append(environment.concentration_map)
 
     def measure_bees(self, bee, queen, global_i):
@@ -67,7 +69,7 @@ class BeeKeeper(object):
         if self.sleeping:
             return
 
+        # if self.save_concentration_maps:
         self.__write_environment_data()
-        self.__write_bee_data()
 
-    
+        self.__write_bee_data()

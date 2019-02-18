@@ -46,6 +46,7 @@ def config_options():
     parser.add_argument("--space_constraint", type=float, default=0.85)
     parser.add_argument("--t_threshold", type=float, default=100)
     parser.add_argument("--measurements_on", type=bool, default=False)
+    parser.add_argument("--save_concentration_maps", type=bool, default=False)
     parser.add_argument("--file", type=open, action=LoadFromFile)
 
     # Separate
@@ -64,17 +65,18 @@ def directory(config):
     else:
         cfg_name = config.config_file.split(os.path.sep)[-1].replace('.cfg', '')
 
-    model_dir = os.path.join(config.base_dir, f"cfg__{cfg_name}__{timestamp}")
+    # model_dir = os.path.join(config.base_dir, f"cfg__{cfg_name}__{timestamp}")
     # Show params on folder title
-    # Q = config.queen_initial_concentration
-    # W = config.worker_initial_concentration
-    # D = config.diffusion_coefficient
-    # T = config.worker_threshold
-    # wb = config.worker_bias_scalar
-    # decay = config.decay
-    # seed = config.random_seed
-    # params_name = f"Q{Q}_W{W}_D{D}_T{T:0.4f}_wb{wb}_decay{decay}_seed{seed}"
-    # model_dir = os.path.join(config.base_dir, f"{params_name}")
+    Q = config.queen_initial_concentration
+    W = config.worker_initial_concentration
+    D = config.diffusion_coefficient
+    T = config.worker_threshold
+    wb = config.worker_bias_scalar
+    decay = config.decay
+    seed = config.random_seed
+    params_name = f"Q{Q}_W{W}_D{D}_T{T:0.4f}_wb{wb}_decay{decay}_seed{seed}"
+    model_dir = os.path.join(config.base_dir, f"{params_name}")
+
     with open("test.txt", "w") as outfile:
         outfile.write("Fuck\n")
     os.makedirs(model_dir)
@@ -89,7 +91,8 @@ def world_parameters(cfg, model_dir):
     bee_keeper_params = {
         "bee_path"         : os.path.join(model_dir, "bee_hist.h5"),
         "environment_path" : os.path.join(model_dir, "envir_hist.h5"),
-        "sleeping"         : not cfg.measurements_on
+        "sleeping"         : not cfg.measurements_on,
+        "save_concentration_maps" : cfg.save_concentration_maps
     }
 
     environment_params = {

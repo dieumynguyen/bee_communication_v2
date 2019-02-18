@@ -78,7 +78,7 @@ class Environment(object):
         self.pheromone_sources = list(np.array(self.pheromone_sources)[keep_idxs])
 
     def init_concentration_map(self):
-        self.concentration_map = np.zeros([self.x_grid.shape[0], self.x_grid.shape[0]])
+        self.concentration_map = np.zeros([self.x_grid.shape[0], self.x_grid.shape[0]], dtype=np.float32)
 
     def __diffusion_eq(self, A, D, x, x_source, y, y_source, wb, wx, wy, t, decay_rate):
         term_1 = A / (np.sqrt(t) + 1e-9)

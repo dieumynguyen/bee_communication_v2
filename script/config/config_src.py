@@ -2,13 +2,13 @@ import numpy as np
 
 config_opts = {
     "verbose"     : True,
-    "random_seed" : [0, 5, 10, 15, 20],
+    "random_seed" : [0],
     ### ENVIRONMENT PARAMS ###
     "x_min" : -3,
     "x_max" : 3,
     "dx" : 0.01,
     "t_min" : 0,
-    "t_max" : 1,    # 15 for dt=0.05 = 300 timesteps
+    "t_max" : 0.5,    # 15 for dt=0.05 = 300 timesteps
     "dt" : 0.05,
     "decay" : [18.0],
     "diffusion_coefficient" : [0.6],
@@ -22,7 +22,7 @@ config_opts = {
 
     ### WORKER PARAMS ###
     "num_workers" : 70,
-    "worker_threshold" : [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "worker_threshold" : [0.01],
     "worker_bias_scalar" : [5.0],
     "worker_wait_period" : 4,
     "worker_step_size" : 0.05,
@@ -35,5 +35,6 @@ config_opts = {
     "space_constraint" : 0.80,
     "t_threshold" : 100,
 
-    "measurements_on" : True
+    "measurements_on" : True,
+    "save_concentration_maps" : False
 }

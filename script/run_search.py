@@ -15,7 +15,7 @@ BASE_EXPERIMENT_DIR = "experiments"
 
 def setup_opts():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--debug', type=int, default=1, help='Debugging Mode')
+    parser.add_argument('--debug', type=int, default=0, help='Debugging Mode')
     parser.add_argument('--location', type=str, default='server', help='local or server')
     parser.add_argument('--nodes', type=int, default=1, help='num nodes')
     parser.add_argument('--ntasks', type=int, default=48, help='num tasks')
@@ -94,7 +94,8 @@ def run_search(base_dir, cfg_files_dir, experiment_dir, opts):
         print(f"\n{cfg_file}\n")
 
         if opts.location == 'local':
-            call(["python", f"{PY_FILE}", "--experiment_folder", f"{experiment_dir}", "--file", f"{cfg_file}"])
+            # call(["python", f"{PY_FILE}", "--experiment_folder", f"{experiment_dir}", "--file", f"{cfg_file}"])
+            call(["python", f"{PY_FILE}", "--base_dir", f"{experiment_dir}", "--file", f"{cfg_file}"])
         elif opts.location == 'server':
             slurm_path = create_slurm_script(base_dir, cfg_i, experiment_dir, cfg_file, opts)
             call(["sbatch", slurm_path])
