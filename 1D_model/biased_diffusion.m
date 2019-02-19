@@ -11,7 +11,7 @@ set(0,'Defaultlinelinewidth',2, 'DefaultlineMarkerSize',6,...
  
 t_array = 0:0.05:400; 
  
-v = 1 * 0.0;
+v = 1 * 1;
  
 phi0 = 0.15;
 phic_array = [0.00001, 0.0001, 0.001, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1.0]; 

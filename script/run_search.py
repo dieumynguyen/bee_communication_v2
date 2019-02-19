@@ -20,7 +20,7 @@ def setup_opts():
     parser.add_argument('--nodes', type=int, default=1, help='num nodes')
     parser.add_argument('--ntasks', type=int, default=48, help='num tasks')
     parser.add_argument('--mem', type=int, default=500, help='memory limit (GB)')
-    parser.add_argument('--time', type=int, default=5, help='time limit (hrs)')
+    parser.add_argument('--time', type=int, default=20, help='time limit (hrs)')
     parser.add_argument('--partition', type=str, default="short", help='partition type')
     return parser.parse_args()
 

@@ -9,8 +9,13 @@ import matplotlib.pyplot as plt
 import cv2
 plt.rcParams["font.family"] = "Arial"
 
+experiment_path = "experiment_1__2019-02-18_11-20-18"
+trial_path = "Q0.15_W0.15_D0.6_T0.02500_wb0.0_decay18.0_seed24"
+base_exp_dir = f"experiments/{experiment_path}/{trial_path}"
+
+############# Functions
 def read_config(base_exp_dir):
-    cfg_path = glob2.glob(f"{base_exp_dir}/*.cfg")[0]
+    cfg_path = glob2.glob(f"config/files/*.cfg")[4]
     cfg_path, os.path.exists(cfg_path)
 
     with open(cfg_path, "r") as infile:
@@ -46,10 +51,6 @@ def imgs2vid(imgs, outpath, fps=4):
     video.release()
 
 ############# Run
-experiment_path = "test"
-trial_path = "Q0.15_W0.15_D0.6_T0.01000_wb5.0_decay18.0_seed0"
-base_exp_dir = f"experiments/{experiment_path}/{trial_path}"
-
 script_config = read_config(base_exp_dir)
 X_MIN = script_config['x_min']
 X_MAX = script_config['x_max']
@@ -154,10 +155,10 @@ for frame_i in range(cmaps.shape[0]):
         seed = int(script_config['random_seed'])
         title = f"Q{Q}_W{W}_D{D}_T{T:0.5f}_wb{wb}_decay{decay}"
         savepath = f"{title}_seed{seed}.mp4"
-        plt.title(f"{title} \n t: {frame_i+1}/{TIME-1}")
+        plt.title(f"{title} \n t: {frame_i+1}/{TIME}")
 
     # SAVING FRAMES
-    file_path = f't{frame_i+1:03d}.png'
+    file_path = f't{frame_i+1:04d}.png'
     filename = f'movie_frames/{file_path}'
     plt.savefig(filename, bbox_inches='tight', dpi=100)
     plt.close()

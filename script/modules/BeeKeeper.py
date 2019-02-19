@@ -16,7 +16,9 @@ class BeeKeeper(object):
             "gradient_y"         : [],
             "wx"                 : [],
             "wy"                 : [],
-            "distance_from_queen": []
+            "distance_from_queen": [],
+            "concentration"      : [],
+            "threshold_met"      : []
         }
 
         states = ["random_walk_pre", "emit", "wait", "directed_walk", "random_walk_post"]
@@ -29,8 +31,6 @@ class BeeKeeper(object):
     def measure_environment(self, environment):
         if self.sleeping:
             return
-
-        # if self.save_concentration_maps:
         self.environment_history.append(environment.concentration_map)
 
     def measure_bees(self, bee, queen, global_i):
@@ -48,7 +48,9 @@ class BeeKeeper(object):
             "gradient_y"         : bee.gradient_y,
             "wx"                 : bee.wx,
             "wy"                 : bee.wy,
-            "distance_from_queen": dist
+            "distance_from_queen": dist,
+            "concentration"      : bee.total_C,
+            "threshold_met"      : bee.threshold_met
         }
         self.__update_bee_history(bee_info)
 
@@ -69,7 +71,5 @@ class BeeKeeper(object):
         if self.sleeping:
             return
 
-        # if self.save_concentration_maps:
         self.__write_environment_data()
-
         self.__write_bee_data()
